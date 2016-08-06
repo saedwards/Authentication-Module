@@ -1,0 +1,44 @@
+<section class="registration-component">
+
+    <div class="errors">
+        <ul>
+            <li *ngFor="let error of errors">
+                <p>{{ error }}</p>
+            </li>
+        </ul>
+    </div>
+
+    <h1>Registration</h1>
+    <ul>
+        <li>
+            <label>First Name</label>
+            <input type="text" [(ngModel)]="firstName" placeholder="Enter your first name" />
+        </li>
+        <li>
+            <label>Last Name</label>
+            <input type="text" [(ngModel)]="lastName" placeholder="Enter your last Name" />
+        </li>
+        <li>
+            <label>Email</label>
+            <input type="text" [(ngModel)]="email" placeholder="Enter your Email address" />
+        </li>
+    </ul>
+
+    <ul>
+        <li>
+            <label>Username</label>
+            <input type="text" [(ngModel)]="username" placeholder="Choose a username" />
+        </li>
+        <li>
+            <label>Password</label>
+            <input type="password" [(ngModel)]="password" placeholder="Enter your password" />
+        </li>
+        <li>
+            <label>Confirm Password</label>
+            <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm your password" />
+        </li>
+    </ul>
+
+    <button (click)="register()">Register</button>
+
+</section>

@@ -24,7 +24,7 @@ export class NameListService {
   get(): Observable<string[]> {
     return this.http.get('/assets/data.json')
                     .map((res: Response) => res.json())
-                    .catch(this.handleError);
+                    /*.catch(this.handleError)*/;
   }
 
   /**

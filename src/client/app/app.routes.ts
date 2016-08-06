@@ -1,13 +1,15 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import {provideRouter, RouterConfig} from '@angular/router';
 
-import { AboutRoutes } from './+about/index';
-import { HomeRoutes } from './+home/index';
+import {AboutRoutes} from './+about/index';
+import {HomeRoutes} from './+home/index';
+import {AccountRoutes} from './+account/index';
 
-const routes: RouterConfig = [
-  ...HomeRoutes,
-  ...AboutRoutes
+const routes:RouterConfig = [
+    ...HomeRoutes,
+    ...AboutRoutes,
+    ...AccountRoutes
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes),
+    provideRouter(routes),
 ];
