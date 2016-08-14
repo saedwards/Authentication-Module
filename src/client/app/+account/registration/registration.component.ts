@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { Http,Headers, Response } from '@angular/http';
+import { Response } from '@angular/http';
 //import { Observable } from 'rxjs/Observable';
+import { AuthenticationService } from '../../services/index';
+import { NewUser } from '../../models/user';
 
 @Component({
     moduleId: module.id,
     templateUrl: 'registration.component.html'
 })
 export class RegistrationComponent {
-    private apiUrl = 'http://localhost:61444/api/accounts/create';
 
-    private firstName:string = '';
-    private lastName:string = '';
-    private email:string = '';
-    private username:string = '';
-    private password:string = '';
-    private confirmPassword:string = '';
+    private firstName:String = '';
+    private lastName:String = '';
+    private email:String = '';
+    private username:String = '';
+    private password:String = '';
+    private confirmPassword:String = '';
 
-    private errors:any[] = [];
+    constructor(
+        private authenticationService: AuthenticationService) {}
 
-    constructor(private http: Http) {}
+    public register():Promise<Response> {
 
-    public register():Promise {
-
-        let userModel = {
+        let userModel:NewUser = {
             FirstName: this.firstName,
             LastName: this.lastName,
             Email: this.email,
@@ -31,22 +31,11 @@ export class RegistrationComponent {
             ConfirmPassword: this.confirmPassword
         };
 
-        /**
-         * Stub
-         */
-        userModel = {
-            FirstName: 'S',
-            LastName: 'E',
-            Email: 'shane@designsmoothie.com',
-            Username: 'seduuards',
-            Password: 'password',
-            ConfirmPassword: 'password123'
-        };
+        return this.authenticationService.register(userModel);
 
-        return this.post(userModel);
     }
 
-    private post (obj) {
+    /*private post (obj) {
         let headers = new Headers({
             'Accept': 'application/json',
             'Content-Type': 'application/json'});
@@ -94,10 +83,10 @@ export class RegistrationComponent {
 
         console.error(errMsg); // log to console instead
 
-        /*if(error instanceof Response) {
+        /!*if(error instanceof Response) {
             return Observable.throw(error.json().error || 'backend server error');
         }
 
-        return Observable.throw(errMsg);*/
-    }
+        return Observable.throw(errMsg);*!/
+    }*/
 }
