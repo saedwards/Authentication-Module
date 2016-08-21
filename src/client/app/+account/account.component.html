@@ -5,4 +5,7 @@
         <a [routerLink]="['login']">Login</a>
         <a [routerLink]="['changepassword']">Change Password</a>
     </nav>
+    <nav>
+        <a [routerLink]="['admin']" *ngIf="userIsLoggeIn">Admin</a>
+    </nav>
 </section>

@@ -11,23 +11,22 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class AccountComponent implements OnInit {
 
+    private userIsLoggeIn:boolean = false;
+
     constructor (
-        private authenticationService:AuthenticationService) {
-        console.log('accounts');
-    }
+        private authenticationService:AuthenticationService) {}
 
     public ngOnInit () {
 
-        console.log('initialised');
-
         let subscription = this.authenticationService.isLoggedIn.subscribe(
-            value => this.something(value),
-            error => console.log('fuck')
+            value => this.handleLoginUpdate(value),
+            error => console.log(error)
         );
     }
 
-    private something (val) {
-        console.log(val);
+    private handleLoginUpdate (val) {
+
+        this.userIsLoggeIn = val;
     }
 
 }

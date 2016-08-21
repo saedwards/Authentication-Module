@@ -50,7 +50,7 @@ export class AuthenticationAPI {
     public ApiAccountsUserByUsername (username:String) {
 
         if(!this.headers.get('Authorization')) {
-            throw 'User not authenticated.';
+            return this.notAuthenticated();
         }
 
         return this.http.get(
@@ -59,6 +59,47 @@ export class AuthenticationAPI {
             .toPromise()
             .then((res:Response) => res.json())
             .catch(() => this.handleError);
+    }
+
+    public ApiAccountsGetAllUsers () {
+
+        if(!this.headers.get('Authorization')) {
+            return this.notAuthenticated();
+        }
+
+        return this.http.get(
+            this.apiBaseUrl + 'api/accounts/users',
+            { headers: this.headers })
+            .toPromise()
+            .then((res:Response) => res.json())
+            .catch(() => this.handleError);
+    }
+
+    public ApiAccountsDeleteUser (guid:String) {
+
+        if(!this.headers.get('Authorization')) {
+            return this.notAuthenticated();
+        }
+
+        return this.http.delete(
+            this.apiBaseUrl + 'api/accounts/user/' + guid,
+            { headers: new Headers({
+                'Authorization': this.headers.get('Authorization'),
+                'Accept': '*/*'
+            }) })
+            .toPromise()
+            .then((res:Response) => res.json())
+            .catch(() => this.handleError);
+    }
+
+    private notAuthenticated ():Promise {
+
+        console.log('User not authenticated.');
+
+        return new Promise((resolve, reject) => {
+                setTimeout(() => { reject(); }, 0);
+            })
+            .catch(err => console.log(err));
     }
 
     public setToken (token:String) {

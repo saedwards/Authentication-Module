@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-import { AuthenticatedUser } from '../../models/user';
+import { User, AuthenticatedUser } from '../../models/user';
 import { AuthenticationService } from '../../services/index';
 
 @Component({
@@ -9,38 +9,40 @@ import { AuthenticationService } from '../../services/index';
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
     private username:String = '';
     private password:String = '';
 
-    private user:AuthenticatedUser = <AuthenticatedUser>{};
+    private user:User = <User>{};
 
     constructor (
-        private authenticationService: AuthenticationService) {}
+        private authenticationService:AuthenticationService) {}
 
-    public login():Promise<AuthenticatedUser> {
-        
+    public ngOnInit() {
+
+        this.authenticationService.userModel.subscribe(
+            value => this.update(value),
+            error => console.log(error)
+        );
+    }
+
+    public login():Promise<Response> {
+
         return this.authenticationService.login(
             this.username,
             this.password);
 
     }
 
-    public update(userModel:AuthenticatedUser) {
+    public update(userModel:User) {
 
         this.user = userModel;
-
-        /*let subscription = this.isLoggedIn.subscribe(
-            value => this.something(),
-            error => console.log('fuck')
-        );*/
-
     }
 
     public handle_login_click() {
 
-        this.login().then((userModel:AuthenticatedUser) => this.update(userModel));
+        this.login();
 
     }
 

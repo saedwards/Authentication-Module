@@ -1,1 +1,13 @@
-<h2>Admin</h2>
+<section class="admin-component">
+
+    <h2>Admin</h2>
+    <h3>Users</h3>
+    <ul>
+        <li *ngFor="let user of users">
+            <strong>{{ user.fullName }}</strong>
+            <span>{{ user.email }}</span>
+            <button (click)="handleDeleteUser(user.id)">Delete</button>
+        </li>
+    </ul>
+
+</section>

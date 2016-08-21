@@ -7,8 +7,32 @@ import { AuthenticationService } from '../../services/index';
     moduleId: module.id,
     templateUrl: 'admin.component.html'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
 
-    private user:Array<User> = [];
+    private users:Array<User> = [];
+
+    constructor (
+        private authenticationService:AuthenticationService) {}
+
+    public ngOnInit () {
+
+        this.authenticationService.getUsers()
+            .then((res:Response) => this.updateUsers(res));
+
+    }
+
+    public updateUsers (res) {
+
+        if(res.length) {
+            this.users = res;
+        }
+
+        console.log(res);
+    }
+
+    public handleDeleteUser (id:String) {
+
+        this.authenticationService.deleteUser(id);
+    }
 
 }

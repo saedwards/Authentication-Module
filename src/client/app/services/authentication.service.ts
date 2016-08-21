@@ -11,11 +11,10 @@ export class AuthenticationService {
     private errors:Array<any>  = [];
 
     private _isLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject(false);
-
-    /**
-     * Expose isLoggedIn property for event binding
-     */
     public isLoggedIn:Observable<boolean> = this._isLoggedIn.asObservable();
+
+    private _userModel:BehaviorSubject<User> = new BehaviorSubject(new User());
+    public userModel:Observable<AuthenticatedUser> = this._userModel.asObservable();
 
     /**
      * Use HTML 5
@@ -29,17 +28,7 @@ export class AuthenticationService {
     };
 
     constructor(
-        private authenticationAPI:AuthenticationAPI) {
-
-        this.isLoggedIn.subscribe(
-            value => this.something(),
-            error => console.log('fuck')
-        );
-    }
-
-    private something () {
-        console.log('tis varking here');
-    }
+        private authenticationAPI:AuthenticationAPI) {}
 
     /**
      * Register User
@@ -62,26 +51,45 @@ export class AuthenticationService {
      * @param password
      * @returns {Promise<Response>}
      */
-    public login(username:String, password:String):Promise<AuthenticatedUser> {
+    public login(username:String, password:String):Promise<Response> {
 
         return this.authenticationAPI.OauthToken(username, password)
-            .then((res:Response) => this.doLogin(res['access_token']))
-            .then(() => this.getUser(username));
+            .then((res:Response) => {
+                this.doLogin(res['access_token']);
+                return res;
+            })
+            .then((res:Response) => {
+                this.getUser(username);
+                return res;
+            });
 
     }
 
-    public getUser(username:String):Promise<AuthenticatedUser> {
+    public getUser(username:String):Promise<Response> {
 
         return this.authenticationAPI.ApiAccountsUserByUsername(username)
-            .then((res) => this.cacheUser(res));
+            .then((res:Response) => {
+                this.cacheUser(res);
+                return res;
+            });
 
     }
 
-    private cacheUser (res:AuthenticatedUser) {
-        return res;
+    public getUsers():Promise<Response> {
 
-        /*this.sessionState.user.model = res;
-        return this.sessionState.user.model;*/
+        return this.authenticationAPI.ApiAccountsGetAllUsers()
+            .then((res:Response) => res);
+    }
+
+    public deleteUser(id:String):Promise<Response> {
+
+        return this.authenticationAPI.ApiAccountsDeleteUser(id)
+            .then((res:Response) => res);
+    }
+
+    private cacheUser (res) {
+
+        this._userModel.next(res);
     }
 
     private doLogin (token:String) {
