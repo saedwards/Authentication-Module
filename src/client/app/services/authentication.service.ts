@@ -87,6 +87,18 @@ export class AuthenticationService {
             .then((res:Response) => res);
     }
 
+    public assignRolesToUser (userId:String, roles:Array) {
+
+        return this.authenticationAPI.ApiAssignRolesToUser(userId, roles)
+            .then((res:Response) => res);
+    }
+
+    public getRoles():Promise<Response> {
+
+        return this.authenticationAPI.ApiRolesGetAllRoles()
+            .then((res:Response) => res);
+    }
+
     private cacheUser (res) {
 
         this._userModel.next(res);
@@ -96,7 +108,7 @@ export class AuthenticationService {
 
         if (token) {
             this.authenticationAPI.setToken(token);
-            this.sessionState.user.isLoggedIn = true;
+            //this.sessionState.user.isLoggedIn = true;
 
             this._isLoggedIn.next(true);
         }

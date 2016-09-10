@@ -6,7 +6,39 @@
         <li *ngFor="let user of users">
             <strong>{{ user.fullName }}</strong>
             <span>{{ user.email }}</span>
-            <button (click)="handleDeleteUser(user.id)">Delete</button>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary">User Roles</button>
+                <button type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li *ngFor="let role of roles">
+
+                        <!-- Should be seperate component/directive -->
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <input
+                                    #roleEl
+                                    type="checkbox"
+                                    [attr.checked]="userHasRole(user.roles, role.name)"
+                                    (change)="handleUserChangeRoles(user.id, roleEl.checked, role.name)"
+                                    [attr.aria-label]="role.name" />
+                            </div>
+                            <label [attr.for]="roleEl.id">{{ role.name }}</label>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+
+            <button class="btn btn-danger" (click)="handleDeleteUser(user.id)">Delete</button>
         </li>
     </ul>
 

@@ -92,6 +92,39 @@ export class AuthenticationAPI {
             .catch(() => this.handleError);
     }
 
+    public ApiAssignRolesToUser (guid:String, roles:Array) {
+
+        if(!this.headers.get('Authorization')) {
+            return this.notAuthenticated();
+        }
+
+        return this.http.put(
+            this.apiBaseUrl + 'api/accounts/user/' + guid + '/roles',
+            JSON.stringify(roles),
+            { headers: this.headers })
+            .toPromise()
+            .then((res:Response) => res.json())
+            .catch(() => this.handleError);
+    }
+
+
+    /**
+     * Roles Endpoint Controller
+     */
+    public ApiRolesGetAllRoles () {
+
+        if(!this.headers.get('Authorization')) {
+            return this.notAuthenticated();
+        }
+
+        return this.http.get(
+            this.apiBaseUrl + 'api/roles',
+            { headers: this.headers })
+            .toPromise()
+            .then((res:Response) => res.json())
+            .catch(() => this.handleError);
+    }
+
     private notAuthenticated ():Promise {
 
         console.log('User not authenticated.');
