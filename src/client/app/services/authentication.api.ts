@@ -107,6 +107,25 @@ export class AuthenticationAPI {
             .catch(() => this.handleError);
     }
 
+    public ApiAccountsChangePassword (oldPassword:String, newPassword:String, confirmPassword) {
+
+        if(!this.headers.get('Authorization')) {
+            return this.notAuthenticated();
+        }
+
+        return this.http.post(
+            this.apiBaseUrl + 'api/accounts/changepassword',
+            JSON.stringify({
+                'OldPassword': oldPassword,
+                'NewPassword': newPassword,
+                'ConfirmPassword': confirmPassword
+            }),
+            { headers: this.headers })
+            .toPromise()
+            .then((res:Response) => res.json())
+            .catch(() => this.handleError);
+    }
+
 
     /**
      * Roles Endpoint Controller

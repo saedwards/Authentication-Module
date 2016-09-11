@@ -87,6 +87,15 @@ export class AuthenticationService {
             .then((res:Response) => res);
     }
 
+    public changePassword(oldPassword:String, newPassword:String, confirmPassword:String) {
+
+        return this.authenticationAPI.ApiAccountsChangePassword(
+            oldPassword,
+            newPassword,
+            confirmPassword
+        ).then((res:Response) => res);
+    }
+
     public assignRolesToUser (userId:String, roles:Array) {
 
         return this.authenticationAPI.ApiAssignRolesToUser(userId, roles)

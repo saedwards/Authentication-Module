@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
         private authenticationService:AuthenticationService) {}
 
     public ngOnInit () {
-        
+
         this.authenticationService.getUsers()
             .then((res:Response) => this.updateUsers(res));
 
