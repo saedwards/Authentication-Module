@@ -3,7 +3,7 @@ import { AuthenticationService } from '../../services/index';
 
 @Component({
     moduleId: module.id,
-    selector: 'account',
+    selector: 'change-password-component',
     templateUrl: 'changepassword.component.html',
     styleUrls: ['changepassword.component.css']
 })
@@ -26,7 +26,7 @@ export class ChangePasswordComponent {
 
     }
 
-    private handle_password_change () {
+    public handle_password_change () {
 
         this.changePassword();
 

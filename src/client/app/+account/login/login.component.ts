@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-import { User, AuthenticatedUser } from '../../models/user';
+import { User/*, AuthenticatedUser*/ } from '../../models/user';
 import { AuthenticationService } from '../../services/index';
 
 @Component({
     moduleId: module.id,
-    selector: 'login',
+    selector: 'login-component',
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css']
 })

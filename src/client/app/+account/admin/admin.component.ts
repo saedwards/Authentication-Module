@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../services/index';
 export class AdminComponent implements OnInit {
 
     private users:Array<AuthenticatedUser> = [];
-    private roles;
+    private roles:Array<String>;
 
     constructor (
         private authenticationService:AuthenticationService) {}
@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
             .then((res:Response) => this.updateUsers(res));
 
         this.authenticationService.getRoles()
-            .then((res:Response) => this.roles = res);
+            .then((res:Response) => this.updateRoles(res));
 
     }
 
@@ -30,8 +30,13 @@ export class AdminComponent implements OnInit {
         if(res.length) {
             this.users = res;
         }
+    }
 
-        console.log(res);
+    public updateRoles (res) {
+
+        if(res.length) {
+            this.roles = res;
+        }
     }
 
     public handleDeleteUser (id:String) {
@@ -60,8 +65,7 @@ export class AdminComponent implements OnInit {
 
             if (checked && index === -1) {
                 newUserRoles.push(roleName);
-            }
-            else if (!checked && index > -1) {
+            }else if (!checked && index > -1) {
                 newUserRoles.splice(index, 1);
             }
 
@@ -78,7 +82,7 @@ export class AdminComponent implements OnInit {
          */
     }
 
-    private userHasRole (userRoles, roleName:String) {
+    public userHasRole (userRoles, roleName:String) {
         return userRoles.find((userRole) => {
             return userRole === roleName;
         });

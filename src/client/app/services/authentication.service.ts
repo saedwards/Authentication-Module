@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { /*Http,*/ Response/*, Headers*/ } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { NewUser, User, AuthenticatedUser } from '../models/user';
+import { NewUser, User } from '../models/user';
 import { AuthenticationAPI } from './authentication.api';
 
 @Injectable()
 export class AuthenticationService {
 
-    private errors:Array<any>  = [];
+    //private errors:Array<any>  = [];
 
-    private _isLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject(false);
+    public _isLoggedIn:BehaviorSubject<boolean> = new BehaviorSubject(false);
+    public _userModel:BehaviorSubject<User> = new BehaviorSubject(new User());
+
     public isLoggedIn:Observable<boolean> = this._isLoggedIn.asObservable();
-
-    private _userModel:BehaviorSubject<User> = new BehaviorSubject(new User());
-    public userModel:Observable<AuthenticatedUser> = this._userModel.asObservable();
+    public userModel:Observable<User> = this._userModel.asObservable();
 
     /**
      * Use HTML 5
      */
-    public sessionState = {
+    /*public sessionState = {
         user: {
             isLoggedIn:Observable,
             isAdmin:Observable,
             model:User
         }
-    };
+    };*/
 
     constructor(
         private authenticationAPI:AuthenticationAPI) {}

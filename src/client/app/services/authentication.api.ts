@@ -7,7 +7,6 @@ export class AuthenticationAPI {
 
     private apiBaseUrl = 'http://localhost:61444/';
     private errors:Array<any>  = [];
-    private accessToken:String;
 
     /**
      * Bad - unable to mock header revisit
@@ -144,16 +143,6 @@ export class AuthenticationAPI {
             .catch(() => this.handleError);
     }
 
-    private notAuthenticated ():Promise {
-
-        console.log('User not authenticated.');
-
-        return new Promise((resolve, reject) => {
-                setTimeout(() => { reject(); }, 0);
-            })
-            .catch(err => console.log(err));
-    }
-
     public setToken (token:String) {
         let authToken = token;
 
@@ -168,6 +157,16 @@ export class AuthenticationAPI {
         if (this.headers.get('Authorization')) {
             this.headers.delete('Authorization');
         }
+    }
+
+    private notAuthenticated ():Promise {
+
+        console.log('User not authenticated.');
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => { reject(); }, 0);
+        })
+        .catch(err => console.log(err));
     }
 
     private handleError (error:any) {

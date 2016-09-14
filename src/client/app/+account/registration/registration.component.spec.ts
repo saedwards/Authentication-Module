@@ -1,28 +1,30 @@
 import { TestComponentBuilder } from '@angular/compiler/testing';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
-import { Component } from '@angular/core';
+/*import { Component } from '@angular/core';*/
 import {
     inject,
     async
 } from '@angular/core/testing';
-import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
+/*import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 
-import { RegistrationComponent } from './registration.component';
+import { RegistrationComponent } from './registration.component';*/
 
 export function main() {
 
-    describe("Registration component", () => {
+    describe('Registration component', () => {
 
         let providerArr: any[];
 
-        beforeEach(() => { providerArr = [disableDeprecatedForms(), provideForms()]});
+        beforeEach(() => { providerArr = [disableDeprecatedForms(), provideForms()]; });
 
         // Constructor
-        it("should initialise correctly", () => {
-            expect(true).toBe(true);
+        it('should initialise correctly', () => {
+            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+                expect(true).toBe(true);
+            }));
         });
 
-        describe("register [method]", () => {
+        /*describe("register [method]", () => {
 
             describe("when supplied valid user data", () => {
 
@@ -49,9 +51,9 @@ export function main() {
                 });
             });
 
-        });
+        });*/
 
-        describe("validateUser [method]", () => {
+/*        describe("validateUser [method]", () => {
 
             it("should return false when supplied with any invalid NewUser data fields", () => {
 
@@ -62,9 +64,9 @@ export function main() {
             });
         });
 
-        /**
+        /!**
          * Should be imported from external file
-         */
+         *!/
         describe("validateEmail [external utility]", () => {
 
             it("should return true when identifying a correct email address", () => {
@@ -108,7 +110,7 @@ export function main() {
             it("should return false when password does not contain at least one lower-case character", () => {
 
             });
-        });
+        });*/
 
         /**
          * Check Taiseer's code for more validation that can be exposed on the client.
