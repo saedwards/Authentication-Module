@@ -1,5 +1,4 @@
-/*
-!* Reset *!
+/* Reset */
 html,
 body,
 div {
@@ -8,12 +7,12 @@ div {
   padding: 0;
 }
 
-!* Box-sizing border-box *!
+/* Box-sizing border-box */
 * {
   box-sizing: border-box;
 }
 
-!* Set up a default font and some padding to provide breathing room *!
+/* Set up a default font and some padding to provide breathing room */
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 16px;
@@ -30,7 +29,7 @@ p {
 }
 
 ul {
-  margin: 10px 0 0 0;
+  margin: 10px 0 0;
   padding: 0 0 0 20px;
 }
 
@@ -62,4 +61,3 @@ button {
 button:hover {
   background-color: #28739e;
 }
-*/
