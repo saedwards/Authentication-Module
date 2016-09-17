@@ -29,7 +29,7 @@ export class AuthenticationAPI {
             this.apiBaseUrl + 'oauth/token',
             'grant_type=password&username=' + username + '&password=' + password,
             { headers: this.encryptedHeaders })
-            .toPromise()
+            .toPromise(Promise)
             .then((res:Response) => res.json())
             .catch(() => this.handleError);
     }

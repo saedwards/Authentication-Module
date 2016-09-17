@@ -8,6 +8,8 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AuthenticationService, AuthenticationAPI } from '../services/index';
 
+import 'rxjs/add/operator/toPromise';
+
 @NgModule({
     imports: [CommonModule, SharedModule],
     declarations: [

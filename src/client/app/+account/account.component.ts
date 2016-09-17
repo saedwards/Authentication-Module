@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
-import {Subscription} from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Rx';
 
 @Component({
     moduleId: module.id,
     selector: 'account-component',
     templateUrl: 'account.component.html',
-    styleUrls: ['account.component.css'],
-    directives: [ROUTER_DIRECTIVES]
+    styleUrls: ['account.component.css']
 })
 export class AccountComponent implements OnInit {
 
