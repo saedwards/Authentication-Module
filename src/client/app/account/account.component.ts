@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs/Rx';
 })
 export class AccountComponent implements OnInit {
 
-    private userIsLoggeIn:boolean = false;
+    private userIsLoggedIn:boolean = false;
     private subscription:Subscription;
 
     constructor (
@@ -26,7 +26,7 @@ export class AccountComponent implements OnInit {
 
     private handleLoginUpdate (val:boolean) {
 
-        this.userIsLoggeIn = val;
+        this.userIsLoggedIn = val;
     }
 
 }

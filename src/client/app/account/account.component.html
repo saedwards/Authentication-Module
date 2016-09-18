@@ -1,11 +1,36 @@
-<section class="account">
-    <h1>Account</h1>
-    <nav>
-        <a [routerLink]="['registration']">Register</a>
-        <a [routerLink]="['login']">Login</a>
-        <a [routerLink]="['changepassword']">Change Password</a>
+<section class="account-component">
+
+    <h1>User Facilities</h1>
+    <nav class="account-navigation">
+        <ul>
+            <li>
+                <a class="btn btn-info" [routerLink]="['login']">Login</a>
+                User login - authenticate a new user (Uses JWT bearer tokens).
+            </li>
+            <li>
+                <a class="btn btn-info" [routerLink]="['registration']">Register</a>
+                User registration - create a new user account.
+            </li>
+            <li>
+                <a class="btn btn-info" [routerLink]="['changepassword']">Change Password</a>
+                User registration - create a new user account.
+            </li>
+        </ul>
     </nav>
-    <nav>
-        <a [routerLink]="['admin']" *ngIf="userIsLoggeIn">Admin</a>
+
+    <h1>Account Management Facilities</h1>
+    <nav class="account-navigation">
+        <ul>
+            <li>
+                <span *ngIf="userIsLoggedIn">
+                    <a class="btn btn-info" [routerLink]="['admin']">Admin</a>
+                </span>
+                <span *ngIf="!userIsLoggedIn">
+                    <a class="btn btn-info disabled" (click)="false">Admin</a>
+                </span>
+                Admin area - manage multiple user accounts (Must have priveleges to access this area).
+            </li>
+        </ul>
     </nav>
+
 </section>

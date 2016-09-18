@@ -1,8 +1,9 @@
 <section class="admin-component">
 
-    <h2>Admin</h2>
-    <h3>Users</h3>
-    <ul>
+    <h1>Admin</h1>
+
+    <h5>Users</h5>
+    <ul class="user-list">
         <li *ngFor="let user of users">
             <strong>{{ user.fullName }}</strong>
             <span>{{ user.email }}</span>

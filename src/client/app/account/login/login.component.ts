@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
 
     public update(userModel:User) {
 
+        console.log('obervables are awesome!');
+
         this.user = userModel;
     }
 

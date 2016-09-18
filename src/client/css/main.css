@@ -61,3 +61,52 @@ button {
 button:hover {
   background-color: #28739e;
 }
+
+
+/**
+ * Authentication Module
+ */
+.field-list {
+  padding: 0;
+  list-style-type: none;
+}
+
+.field-list * {
+  font-size : 14px;
+}
+
+.field-list + .field-list {
+  margin-top : 2rem;
+}
+
+.field-list > li > label {
+  display : block;
+  font-weight : normal;
+}
+
+.field-list > input {
+  width: 100%;
+}
+
+@media (min-width : 768px) {
+  .field-list > li > label {
+    display: inline-block;
+    width: 150px;
+  }
+
+  .field-list > li > input {
+    width : 220px;
+  }
+}
+
+.primary-cta {
+    margin-top : 1rem;
+
+    /**
+     * Reset seed/bootstrap style conflict
+     */
+    height : auto;
+  }
+/**
+ * End Authentication Module
+ */

@@ -5,7 +5,8 @@ import { NewUser } from '../../models/user';
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'registration.component.html'
+    templateUrl: 'registration.component.html',
+    styleUrls: ['registration.component.css']
 })
 export class RegistrationComponent {
 

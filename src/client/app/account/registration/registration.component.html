@@ -9,7 +9,7 @@
     </div>
 
     <h1>Registration</h1>
-    <ul>
+    <ul class="field-list">
         <li>
             <label>First Name</label>
             <input type="text" [(ngModel)]="firstName" placeholder="Enter your first name" />
@@ -24,7 +24,7 @@
         </li>
     </ul>
 
-    <ul>
+    <ul class="field-list">
         <li>
             <label>Username</label>
             <input type="text" [(ngModel)]="username" placeholder="Choose a username" />
@@ -39,6 +39,6 @@
         </li>
     </ul>
 
-    <button (click)="register()">Register</button>
+    <button class="btn btn-primary btn-lg primary-cta" (click)="register()">Register</button>
 
 </section>
