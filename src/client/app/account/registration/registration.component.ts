@@ -13,15 +13,15 @@ export class RegistrationComponent {
     /**
      * Convert simple properties to RxJS observables and attach validation
      */
-    private firstName:String = '';
-    private lastName:String = '';
-    private email:String = '';
-    private username:String = '';
-    private password:String = '';
-    private confirmPassword:String = '';
+    public firstName:String = '';
+    public lastName:String = '';
+    public email:String = '';
+    public username:String = '';
+    public password:String = '';
+    public confirmPassword:String = '';
 
     constructor(
-        private authenticationService: AuthenticationService) {}
+        public authenticationService: AuthenticationService) {}
 
     public register():Promise<Response> {
 

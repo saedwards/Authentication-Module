@@ -1,43 +1,123 @@
-import { TestComponentBuilder } from '@angular/compiler/testing';
-import { disableDeprecatedForms, provideForms } from '@angular/forms';
-/*import { Component } from '@angular/core';*/
-import {
-    inject,
-    async
-} from '@angular/core/testing';
-/*import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
+import { AuthenticationService } from '../../services/authentication.service';
+import { RegistrationComponent } from './registration.component';
 
-import { RegistrationComponent } from './registration.component';*/
+import { TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { async } from '@angular/core/testing';
+import {
+    BaseRequestOptions,
+    ConnectionBackend,
+    Http, HttpModule
+} from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 export function main() {
 
     describe('Registration component', () => {
 
-        let providerArr: any[];
+        var authenticationServiceStub = {
+            register:() => new Promise(() => {})
+        };
 
-        beforeEach(() => { providerArr = [disableDeprecatedForms(), provideForms()]; });
+        beforeEach(() => {
 
-        // Constructor
-        it('should initialise correctly', () => {
-            async(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-                expect(true).toBe(true);
-            }));
+            TestBed.configureTestingModule({
+                imports: [FormsModule, RouterModule, HttpModule],
+                declarations: [RegistrationComponent],
+                providers: [
+                    BaseRequestOptions,
+                    MockBackend,
+                    {
+                        provide: Http,
+                        useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
+                            return new Http(backend, defaultOptions);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                    },
+                    {
+                        provide: AuthenticationService,
+                        useValue: authenticationServiceStub
+                    }
+                ]
+            });
+
         });
 
-        /*describe("register [method]", () => {
+        // Constructor
+        it('should initialise correctly', async(() => {
+
+            TestBed.compileComponents().then(() => {
+
+                let fixture = TestBed.createComponent(RegistrationComponent);
+                fixture.detectChanges();
+
+                let comp = fixture.componentInstance,
+                    el = fixture.debugElement.children[0].nativeElement;
+
+                expect(el).toBeDefined();
+                expect(comp).toBeDefined();
+
+                expect(comp.firstName).toBe('');
+                expect(comp.lastName).toBe('');
+                expect(comp.email).toBe('');
+                expect(comp.username).toBe('');
+                expect(comp.password).toBe('');
+                expect(comp.confirmPassword).toBe('');
+
+                expect(comp.authenticationService).toBeDefined();
+                expect(comp.authenticationService.register).toBeDefined();
+
+            });
+
+        }));
+
+        describe("register [method]", () => {
+
+            function populateComponent_validRegistration (comp) {
+                comp.firstName = 'Gomez';
+                comp.lastName = 'Addams';
+                comp.email = 'gomez.addams@';
+                comp.username = 'gomezy';
+                comp.password = 'MyMorticia666';
+                comp.confirmPassword = 'MyMorticia666';
+            }
 
             describe("when supplied valid user data", () => {
 
-                it("should post a valid NewUser type object", () => {
-                    expect(false).toBe(false);
-                });
-
                 it("should call the authentication service", () => {
 
+                    TestBed.compileComponents().then(() => {
+
+                        let fixture = TestBed.createComponent(RegistrationComponent);
+                        fixture.detectChanges();
+
+                        let comp = fixture.componentInstance;
+
+                        populateComponent_validRegistration(comp);
+
+                        let authenticationService = fixture.debugElement.injector.get(AuthenticationService);
+
+                        //spyOn()
+                        let spy = spyOn(authenticationService, 'register')
+                            .and.returnValue(Promise.resolve({test:'something'}));
+
+                        //comp.register();
+
+                    });
+
                 });
+
+                it("should post a valid NewUser type object", async(() => {
+
+
+
+                }));
+
+
             });
 
-            describe("when supplied invalid user data", () => {
+            /*describe("when supplied invalid user data", () => {
 
                 it("should not call the authentication service", () => {
 
@@ -49,9 +129,9 @@ export function main() {
                 it("should handle post request server failures gracefully", () => {
 
                 });
-            });
+            });*/
 
-        });*/
+        });
 
 /*        describe("validateUser [method]", () => {
 
