@@ -1,10 +1,9 @@
 import { AuthenticationService } from '../../services/authentication.service';
 import { RegistrationComponent } from './registration.component';
 
-import { TestBed } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { async } from '@angular/core/testing';
 import {
     BaseRequestOptions,
     ConnectionBackend,
@@ -13,6 +12,8 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 export function main() {
+
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
 
     describe('Registration component', () => {
 
@@ -74,7 +75,28 @@ export function main() {
 
         describe("register [method]", () => {
 
-            function populateComponent_validRegistration (comp) {
+            var fixture,
+                comp,
+                authenticationService;
+
+            beforeEach(async(() => {
+
+                TestBed.compileComponents().then(() => {
+
+                    fixture = TestBed.createComponent(RegistrationComponent);
+                    fixture.detectChanges();
+
+                    comp = fixture.componentInstance;
+                    authenticationService = fixture.debugElement.injector.get(AuthenticationService);
+
+                    spyOn(authenticationService, 'register')
+                        .and.returnValue(Promise.resolve());
+
+                });
+
+            }));
+
+            function populateComponent_validUserData (comp) {
                 comp.firstName = 'Gomez';
                 comp.lastName = 'Addams';
                 comp.email = 'gomez.addams@';
@@ -85,63 +107,89 @@ export function main() {
 
             describe("when supplied valid user data", () => {
 
-                it("should call the authentication service", () => {
+                beforeEach(async(() => {
 
-                    TestBed.compileComponents().then(() => {
-
-                        let fixture = TestBed.createComponent(RegistrationComponent);
-                        fixture.detectChanges();
-
-                        let comp = fixture.componentInstance;
-
-                        populateComponent_validRegistration(comp);
-
-                        let authenticationService = fixture.debugElement.injector.get(AuthenticationService);
-
-                        //spyOn()
-                        let spy = spyOn(authenticationService, 'register')
-                            .and.returnValue(Promise.resolve({test:'something'}));
-
-                        //comp.register();
-
-                    });
-
-                });
-
-                it("should post a valid NewUser type object", async(() => {
-
-
+                    populateComponent_validUserData(comp);
 
                 }));
 
+                it("should call the authentication service", async(() => {
+
+                    fixture.detectChanges();
+                    fixture.whenStable().then(() => {
+                        fixture.detectChanges();
+
+                        comp.register();
+                        expect(authenticationService.register).toHaveBeenCalled();
+
+                    });
+
+                }));
+
+                it("should send a valid NewUser type object", async(() => {
+
+                    fixture.detectChanges();
+                    fixture.whenStable().then(() => {
+                        fixture.detectChanges();
+
+                        comp.register();
+
+                        expect(authenticationService.register).toHaveBeenCalledWith({
+                            FirstName: 'Gomez',
+                            LastName: 'Addams',
+                            Email: 'gomez.addams@',
+                            Username: 'gomezy',
+                            Password: 'MyMorticia666',
+                            ConfirmPassword: 'MyMorticia666'
+                        });
+
+                    });
+
+                }));
 
             });
 
-            /*describe("when supplied invalid user data", () => {
+            describe("when supplied invalid user data", () => {
 
-                it("should not call the authentication service", () => {
+                it("should not call the authentication service", async(() => {
 
-                });
+                    fixture.detectChanges();
+                    fixture.whenStable().then(() => {
+                        fixture.detectChanges();
+
+                        comp.register();
+
+                        expect(authenticationService.register).not.toHaveBeenCalled();
+
+                    });
+
+                }));
+
             });
 
-            describe("when server is unavailable", () => {
+            /*describe("when server is unavailable", () => {
 
-                it("should handle post request server failures gracefully", () => {
+                it("should handle post request server failures gracefully", async(() => {
 
-                });
+                    /!**
+                     * Check DOM elements display correctly with correct feedback
+                     *!/
+
+                }));
+
             });*/
 
         });
 
 /*        describe("validateUser [method]", () => {
 
-            it("should return false when supplied with any invalid NewUser data fields", () => {
+            it("should return false when supplied with any invalid NewUser data fields", async(() => {
 
-            });
+            }));
 
-            it("should return true when all data fields supplied are valid", () => {
+            it("should return true when all data fields supplied are valid", async(() => {
 
-            });
+            }));
         });
 
         /!**
@@ -149,47 +197,47 @@ export function main() {
          *!/
         describe("validateEmail [external utility]", () => {
 
-            it("should return true when identifying a correct email address", () => {
+            it("should return true when identifying a correct email address", async(() => {
 
-            });
+            }));
 
-            it("should return false when identifying an incorrect user email address", () => {
+            it("should return false when identifying an incorrect user email address", async(() => {
 
-            });
+            }));
         });
 
         describe("validateUsername [external utility]", () => {
 
-            it("should return true when identifying a valid username", () => {
+            it("should return true when identifying a valid username", async(() => {
 
-            });
+            }));
 
-            it("should return false when identifying an invalid username", () => {
+            it("should return false when identifying an invalid username", async(() => {
 
-            });
+            }));
         });
 
         describe("validatePassword [external utility]", () => {
 
-            it("should return false when password and confirmPassword fields don't match", () => {
+            it("should return false when password and confirmPassword fields don't match", async(() => {
 
-            });
+            }));
 
-            it("should return false when password is less than 6 characters long", () => {
+            it("should return false when password is less than 6 characters long", async(() => {
 
-            });
+            }));
 
-            it("should return false when password does not contain at least one non-letter character", () => {
+            it("should return false when password does not contain at least one non-letter character", async(() => {
 
-            });
+            }));
 
-            it("should return false when password does not contain at least one upper-case character", () => {
+            it("should return false when password does not contain at least one upper-case character", async(() => {
 
-            });
+            }));
 
-            it("should return false when password does not contain at least one lower-case character", () => {
+            it("should return false when password does not contain at least one lower-case character", async(() => {
 
-            });
+            }));
         });*/
 
         /**

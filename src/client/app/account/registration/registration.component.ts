@@ -34,7 +34,36 @@ export class RegistrationComponent {
             ConfirmPassword: this.confirmPassword
         };
 
+        console.log(userModel);
+        console.log(RegistrationComponent.validateNewUser(userModel).isValid);
+
+        if (!RegistrationComponent.validateNewUser(userModel).isValid) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => { reject(); }, 0);
+            })
+            .catch(err => console.log(err));
+        }
+
         return this.authenticationService.register(userModel);
+
+    }
+
+    /**
+     * Should be external dependency
+     */
+    public static validateNewUser (user:NewUser) {
+
+        let isValid = !(
+            user.FirstName === '' ||
+            user.LastName === '' ||
+            user.Email === '' ||
+            user.Username === '' ||
+            user.Password === '' ||
+            user.ConfirmPassword === '');
+
+        return {
+            isValid: isValid
+        };
 
     }
 }

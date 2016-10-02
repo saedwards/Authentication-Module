@@ -19,7 +19,7 @@ export function main() {
   describe('Home component', () => {
     // setting module for testing
     // Disable old forms
-    beforeEach(() => {
+    /*beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterModule, HttpModule, HomeModule],
         declarations: [TestComponent],
@@ -59,12 +59,14 @@ export function main() {
             expect(homeDOMEl.querySelectorAll('li')[0].textContent).toEqual('Minko');
           });
 
-      }));
+      }));*/
   });
 }
 
+/*
 @Component({
   selector: 'test-cmp',
   template: '<sd-home></sd-home>'
 })
 class TestComponent { }
+*/
