@@ -1,6 +1,7 @@
 import { AuthenticationService } from '../../services/authentication.service';
 import { RegistrationComponent } from './registration.component';
 
+import { By }              from '@angular/platform-browser';
 import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -79,23 +80,6 @@ export function main() {
                 comp,
                 authenticationService;
 
-            beforeEach(async(() => {
-
-                TestBed.compileComponents().then(() => {
-
-                    fixture = TestBed.createComponent(RegistrationComponent);
-                    fixture.detectChanges();
-
-                    comp = fixture.componentInstance;
-                    authenticationService = fixture.debugElement.injector.get(AuthenticationService);
-
-                    spyOn(authenticationService, 'register')
-                        .and.returnValue(Promise.resolve());
-
-                });
-
-            }));
-
             function populateComponent_validUserData (comp) {
                 comp.firstName = 'Gomez';
                 comp.lastName = 'Addams';
@@ -105,79 +89,135 @@ export function main() {
                 comp.confirmPassword = 'MyMorticia666';
             }
 
-            describe("when supplied valid user data", () => {
+            describe("when service is available", () => {
 
                 beforeEach(async(() => {
 
-                    populateComponent_validUserData(comp);
+                    TestBed.compileComponents().then(() => {
 
-                }));
-
-                it("should call the authentication service", async(() => {
-
-                    fixture.detectChanges();
-                    fixture.whenStable().then(() => {
+                        fixture = TestBed.createComponent(RegistrationComponent);
                         fixture.detectChanges();
 
-                        comp.register();
-                        expect(authenticationService.register).toHaveBeenCalled();
+                        comp = fixture.componentInstance;
+                        authenticationService = fixture.debugElement.injector.get(AuthenticationService);
+
+                        spyOn(authenticationService, 'register')
+                            .and.returnValue(Promise.resolve());
 
                     });
 
                 }));
 
-                it("should send a valid NewUser type object", async(() => {
+                describe("when supplied valid user data", () => {
 
-                    fixture.detectChanges();
-                    fixture.whenStable().then(() => {
+                    beforeEach(async(() => {
+
+                        populateComponent_validUserData(comp);
+
+                    }));
+
+                    it("should call the authentication service", async(() => {
+
                         fixture.detectChanges();
+                        fixture.whenStable().then(() => {
+                            fixture.detectChanges();
 
-                        comp.register();
+                            comp.register();
+                            expect(authenticationService.register).toHaveBeenCalled();
 
-                        expect(authenticationService.register).toHaveBeenCalledWith({
-                            FirstName: 'Gomez',
-                            LastName: 'Addams',
-                            Email: 'gomez.addams@',
-                            Username: 'gomezy',
-                            Password: 'MyMorticia666',
-                            ConfirmPassword: 'MyMorticia666'
                         });
 
-                    });
+                    }));
 
-                }));
+                    it("should send a valid NewUser type object", async(() => {
+
+                        fixture.detectChanges();
+                        fixture.whenStable().then(() => {
+                            fixture.detectChanges();
+
+                            comp.register();
+
+                            expect(authenticationService.register).toHaveBeenCalledWith({
+                                FirstName: 'Gomez',
+                                LastName: 'Addams',
+                                Email: 'gomez.addams@',
+                                Username: 'gomezy',
+                                Password: 'MyMorticia666',
+                                ConfirmPassword: 'MyMorticia666'
+                            });
+
+                        });
+
+                    }));
+
+                });
+
+                describe("when supplied invalid user data", () => {
+
+                    it("should not call the authentication service", async(() => {
+
+                        fixture.detectChanges();
+                        fixture.whenStable().then(() => {
+                            fixture.detectChanges();
+
+                            comp.register();
+
+                            expect(authenticationService.register).not.toHaveBeenCalled();
+
+                        });
+
+                    }));
+
+                });
 
             });
 
-            describe("when supplied invalid user data", () => {
+            describe("when service is unavailable", () => {
 
-                it("should not call the authentication service", async(() => {
+                var fakePromiseReject = 'Fake server error';
 
-                    fixture.detectChanges();
-                    fixture.whenStable().then(() => {
+                beforeEach(async(() => {
+
+                    TestBed.compileComponents().then(() => {
+
+                        fixture = TestBed.createComponent(RegistrationComponent);
                         fixture.detectChanges();
+
+                        comp = fixture.componentInstance;
+                        authenticationService = fixture.debugElement.injector.get(AuthenticationService);
+
+                        spyOn(authenticationService, 'register')
+                            .and.returnValue(Promise.reject(fakePromiseReject));
+
+                        populateComponent_validUserData(comp);
 
                         comp.register();
 
-                        expect(authenticationService.register).not.toHaveBeenCalled();
-
                     });
 
                 }));
-
-            });
-
-            /*describe("when server is unavailable", () => {
 
                 it("should handle post request server failures gracefully", async(() => {
 
-                    /!**
-                     * Check DOM elements display correctly with correct feedback
-                     *!/
+                    fixture.detectChanges();
+                    fixture.whenStable().then(() => {
+                        fixture.detectChanges();
+
+                        /**
+                         * Check DOM elements display correctly with correct feedback
+                         */
+                        let el = fixture.debugElement.queryAll(By.css('.error-list'))[0];
+
+                        /**
+                         * Expect error list to be populated
+                         */
+                        expect(el.nativeElement.children.length).toBeGreaterThan(0);
+                        expect(comp.errors.length).toBeGreaterThan(0);
+                    });
 
                 }));
 
-            });*/
+            });
 
         });
 

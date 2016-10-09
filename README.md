@@ -8,3 +8,9 @@ Uses full release of Angular 2 and shares history with seed project to easily me
 migration. Components and services related to the authentication module live in /src/client/app/account/.
 
 Please see [angular2-seed](https://github.com/mgechev/angular2-seed.git) for details on how to use the project.
+
+
+Accounts Module added to ./src/client/app/account/
+
+Tests available for component(s):
+- registration.component

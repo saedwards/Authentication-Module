@@ -20,6 +20,8 @@ export class RegistrationComponent {
     public password:String = '';
     public confirmPassword:String = '';
 
+    public errors:Array<string> = [];
+
     constructor(
         public authenticationService: AuthenticationService) {}
 
@@ -34,9 +36,6 @@ export class RegistrationComponent {
             ConfirmPassword: this.confirmPassword
         };
 
-        console.log(userModel);
-        console.log(RegistrationComponent.validateNewUser(userModel).isValid);
-
         if (!RegistrationComponent.validateNewUser(userModel).isValid) {
             return new Promise((resolve, reject) => {
                 setTimeout(() => { reject(); }, 0);
@@ -44,7 +43,8 @@ export class RegistrationComponent {
             .catch(err => console.log(err));
         }
 
-        return this.authenticationService.register(userModel);
+        return this.authenticationService.register(userModel)
+            .catch(err => this.handleServerError(err));
 
     }
 
@@ -64,6 +64,14 @@ export class RegistrationComponent {
         return {
             isValid: isValid
         };
+
+    }
+
+    private handleServerError (err:String) {
+
+        if (err) {
+            this.errors.push(err);
+        }
 
     }
 }

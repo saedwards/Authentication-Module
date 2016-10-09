@@ -42,7 +42,7 @@ export class AuthenticationAPI {
             { headers: this.headers })
             .toPromise()
             .then((res:Response) => res.json().data)
-            .catch(() => this.handleError);
+            .catch(err => this.handleError(err));
 
     }
 
