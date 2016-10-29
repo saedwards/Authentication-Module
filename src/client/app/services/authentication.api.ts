@@ -159,7 +159,7 @@ export class AuthenticationAPI {
         }
     }
 
-    private notAuthenticated ():Promise {
+    private notAuthenticated ():Promise<any> {
 
         console.log('User not authenticated.');
 
